@@ -1,7 +1,15 @@
 module.exports = app => {
-  app.on('pull_request.opened', async context => {
+  const default_config = {
+    "updateDocsWhiteList": ["bug", "chore"],
+    "updateDocsTargetFiles": ["README", "docs/"]
+  }
+
+  app.on('*', async context => {
     const files = await context.github.pullRequests.getFiles(context.issue())
-    const config = await context.config('config.yml')
+    let config = await context.config('config.yml')
+    if (!config) {
+      config = default_config
+    }
     const docs = files.data.find(function (file) {
       let targetFile
 
@@ -19,6 +27,9 @@ module.exports = app => {
       }
     })
 
+    let mergeable = false
+    let message = "Error in processing"
+
     if (!docs) {
       // Get config.yml and comment that on the PR
       try {
@@ -32,15 +43,44 @@ module.exports = app => {
           })
         }
         // Check to make sure it's not whitelisted (ie bug or chore)
-        if (!whiteList) {
-          const template = config.updateDocsComment
-          return context.github.issues.createComment(context.issue({body: template}))
+        if (whiteList) {
+          mergeable = true
+          message = "Whitelist in title"
+        } else {
+          message = "Documentation not updated"
         }
       } catch (err) {
         if (err.code !== 404) {
           throw err
         }
       }
+    } else {
+      mergeable = true
+      message = "Doc updated"
     }
+    setStatus(context, mergeable, message)
   })
+}
+
+function setStatus(context, mergeable, message) {
+  const {github} = context;
+
+  const status =
+    mergeable
+      ? {
+          state: 'success',
+          description: message,
+        }
+      : {
+          state: 'failure',
+          description: message,
+        };
+
+  return github.repos.createStatus(
+    context.repo({
+      ...status,
+      sha: context.payload.pull_request.head.sha,
+      context: 'update-docs',
+    }),
+  );
 }

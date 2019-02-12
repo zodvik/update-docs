@@ -1,8 +1,6 @@
 # update-docs
 
-> a GitHub App built with [probot](https://github.com/probot/probot) that comments on newly opened Pull Requests that do not update either the README or a file in the `/docs` folder. 
-
-<img width="810" alt="screen shot 2017-07-12 at 2 59 22 pm" src="https://user-images.githubusercontent.com/13410355/28179044-97207bee-67b5-11e7-80d0-0c8ede4a325f.png">
+> a GitHub App built with [probot](https://github.com/probot/probot) that comments on newly opened Pull Requests that do not update either the README or a file in the `/docs` folder.
 
 ## Usage
 
@@ -13,12 +11,7 @@
 3. Optionally, you can also add a `whiteList` that includes terms, that if found in the title, the bot will not comment on.
 4. Optionally, you can also add `targetFiles` that includes the files or paths to consider documentation.
 ```yml
-# Configuration for update-docs - https://github.com/behaviorbot/update-docs
-
-# Comment to be posted to on PRs that don't update documentation
-updateDocsComment: >
-  Thanks for opening this pull request! The maintainers of this repository would appreciate it if you would update some of our documentation based on your changes.
-
+# Configuration for update-docs - https://github.com/zodvik/update-docs
 updateDocsWhiteList:
   - bug
   - chore

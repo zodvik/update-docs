@@ -1,7 +1,7 @@
 {
   "name": "update-docs",
   "version": "1.0.0",
-  "description": "A GitHub App that prompts users to include documentation in pull requests",
+  "description": "A GitHub App that forces users to include documentation in pull requests",
   "main": "index.js",
   "scripts": {
     "start": "probot run ./index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/behaviorbot/update-docs.git"
+    "url": "git+https://github.com/zodvik/update-docs.git"
   },
   "author": "hiimbex",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/behaviorbot/update-docs/issues"
+    "url": "https://github.com/zodvik/update-docs/issues"
   },
-  "homepage": "https://github.com/behaviorbot/update-docs#readme",
+  "homepage": "https://github.com/zodvik/update-docs#readme",
   "devDependencies": {
     "eslint-plugin-import": "^2.7.0",
     "expect": "^1.20.2",
