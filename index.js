@@ -4,7 +4,7 @@ module.exports = app => {
     "updateDocsTargetFiles": ["README", "docs/"]
   }
 
-  app.on('*', async context => {
+  app.on(['pull_request.opened', 'pull_request.edited'], async context => {
     const files = await context.github.pullRequests.getFiles(context.issue())
     let config = await context.config('config.yml')
     if (!config) {
